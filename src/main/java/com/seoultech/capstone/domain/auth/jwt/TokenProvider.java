@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.seoultech.capstone.exception.ErrorCode.INVALID_TOKEN;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Component
 @Slf4j
@@ -149,5 +151,13 @@ public class TokenProvider implements
 
         User principal = new User(id, "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+    }
+
+    public String resolveSocketToken(StompHeaderAccessor accessor) {
+        String token = accessor.getFirstNativeHeader(AUTHORIZATION);
+        if (StringUtils.hasText(token) && token.startsWith(BEARER_PREFIX)) {
+            return token;
+        }
+        throw new CustomException(INVALID_TOKEN, "Invalid token.");
     }
 }

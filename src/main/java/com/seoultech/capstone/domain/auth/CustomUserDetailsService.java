@@ -30,6 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (student.isPresent()) {
             return new CustomUserDetails(student.get());
         }
-        throw new UsernameNotFoundException("User not found with username: " + id);
+        throw new UsernameNotFoundException("User not found with id: " + id);
     }
+
 }

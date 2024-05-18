@@ -30,7 +30,6 @@ public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final RedisTemplate<String, String> redisTemplate;
 
 
     @Bean
@@ -40,10 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/health-check",
-                                "/teacher/signup", "/teacher/login",
-                                "/student/signup","/student/login",
                                 "/error").permitAll()
-                        .requestMatchers("/main").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(config -> config
