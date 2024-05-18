@@ -1,4 +1,4 @@
-package com.seoultech.capstone.domain.chat;
+package com.seoultech.capstone.domain.chat.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +23,10 @@ public class ChatRoom {
     @Field("created_at")
     @CreatedDate
     private LocalDateTime createdAt;
+
+    public String getId() {
+        return String.valueOf(id);
+    }
+
 
 }

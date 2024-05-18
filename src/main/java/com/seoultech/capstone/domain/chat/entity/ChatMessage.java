@@ -1,5 +1,6 @@
-package com.seoultech.capstone.domain.chat;
+package com.seoultech.capstone.domain.chat.entity;
 
+import com.seoultech.capstone.domain.chat.Enum.SenderType;
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,16 +26,31 @@ public class ChatMessage {
     private String message;
 
     @Field("sender_type")
-    private ChatType senderType;
+    private SenderType senderType;
 
     @Field("created_at")
     @CreatedDate
     private LocalDateTime createdAt;
 
+    public String getId() {
+        return String.valueOf(id);
+    }
+
     @Builder
-    public ChatMessage(String chatRoomId, String message, ChatType senderType) {
+    public ChatMessage(String chatRoomId, String message, SenderType senderType, LocalDateTime createdAt) {
         this.chatRoomId = chatRoomId;
         this.message = message;
         this.senderType = senderType;
+        this.createdAt = createdAt;
     }
+
+    public static ChatMessage of(String chatRoomId, SenderType senderType, String message) {
+
+        return ChatMessage.builder()
+                .chatRoomId(chatRoomId)
+                .senderType(senderType)
+                .message(message)
+                .build();
+    }
+
 }

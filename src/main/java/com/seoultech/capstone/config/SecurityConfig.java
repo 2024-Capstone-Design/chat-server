@@ -39,6 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/health-check",
+                                "/websocket-endpoint/**",
                                 "/error").permitAll()
                         .anyRequest().authenticated()
                 )
